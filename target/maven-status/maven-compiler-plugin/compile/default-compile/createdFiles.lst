@@ -1,0 +1,9 @@
+com\conduent\claim\models\Claim$ClaimLines$ClaimLine.class
+com\conduent\claim\CMdsClaimsApplication.class
+com\conduent\claim\processor\CmdsClaimErrorProcessor.class
+com\conduent\claim\processor\CmdsClaimProcessor.class
+com\conduent\claim\models\Error.class
+com\conduent\claim\models\ObjectFactory.class
+com\conduent\claim\models\Claim.class
+com\conduent\claim\services\ClaimEndpoint.class
+com\conduent\claim\models\Claim$ClaimLines.class

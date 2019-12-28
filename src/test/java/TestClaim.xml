@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<claim>
+    <tcn> 192868029001013170</tcn>
+    <claimType>D</claimType>
+    <memberID>3008922</memberID>
+    <providerID>2006753</providerID>
+    <pricingCode>L</pricingCode>
+    <claimLines>
+        <claimLine>
+            <lineNumber>1</lineNumber>
+        </claimLine>
+        <claimLine>
+            <lineNumber>2</lineNumber>
+        </claimLine>
+    </claimLines>
+</claim>

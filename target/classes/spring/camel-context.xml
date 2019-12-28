@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/cxf      http://camel.apache.org/schema/cxf/camel-cxf.xsd        http://cxf.apache.org/jaxrs     http://cxf.apache.org/schemas/jaxrs.xsd        http://camel.apache.org/schema/spring     http://camel.apache.org/schema/spring/camel-spring.xsd     ">
+    <cxf:rsServer address="http://localhost:9393/cxf/api"
+        id="createClaimCXFEndpoint" serviceClass="com.conduent.claim.services.ClaimEndpoint"/>
+    <camelContext id="camelRestlet" xmlns="http://camel.apache.org/schema/spring">
+        <dataFormats>
+            <jaxb contextPath="com.conduent.claim.models" id="myJaxb" prettyPrint="true"/>
+        </dataFormats>
+        <route id="claimsCXFRoute">
+            <from id="_from1" uri="cxfrs://bean://createClaimCXFEndpoint?bindingStyle=SimpleConsumer"/>
+            <log id="route-log-cxf" message=">>> ${body}"/>
+            <doTry id="_doTry1">
+                <marshal id="_marshal1" ref="myJaxb"/>
+                <to id="_to1" uri="validator:classpath:xsd/claimsrequestbo.xsd"/>
+                <process id="_process1" ref="cmdsClaimProcessorRef"/>
+                <doCatch id="_doCatch1">
+                    <!-- catch multiple exceptions -->
+                    <exception>org.apache.camel.processor.validation.SchemaValidationException</exception>
+                    <process id="_process2" ref="cmdsClaimErrorProcessorRef"/>
+                </doCatch>
+            </doTry>
+        </route>
+    </camelContext>
+    <bean class="com.conduent.claim.processor.CmdsClaimProcessor"
+        id="bean-d98d46a4-3049-4c2e-968b-59a6b6190f4a" name="cmdsClaimProcessorRef"/>
+    <bean class="com.conduent.claim.processor.CmdsClaimErrorProcessor"
+        id="bean-6dcea262-43de-4add-82b9-bad489a5c963" name="cmdsClaimErrorProcessorRef"/>
+</beans>
